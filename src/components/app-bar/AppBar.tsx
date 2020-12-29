@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
-import AppBarDialog from '../app-bar-dialog';
+import AppBarDialog from '../app-bar-dialog/AppBarDialog';
 
 const useStyles = makeStyles((theme) => ({
   root: {

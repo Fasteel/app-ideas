@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import AppBarDialog from './AppBarDialog';
 
 // eslint-disable-next-line import/prefer-default-export
-export const infoExpected = /Ce site a pour objectif de servir de base de travail afin d'accomplir les différents projets proposés sur.*/;
+export const infoExpected = /This site aims to serve as a working basis in order to accomplish the various projects proposed.*/;
 
 it('Should print Information into modal', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
