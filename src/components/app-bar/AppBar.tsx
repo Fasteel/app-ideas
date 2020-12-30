@@ -7,7 +7,9 @@ import {
   Typography,
 } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
+import { useLocation } from 'react-router-dom';
 import AppBarDialog from '../app-bar-dialog/AppBarDialog';
+import routes from '../../utils/routes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,13 +26,19 @@ const useStyles = makeStyles((theme) => ({
 export default function Bar(): JSX.Element {
   const [modalVisible, setModalVisible] = useState(false);
   const classes = useStyles();
+  const location = useLocation();
 
   return (
     <div className="AppBar">
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Fasteel - App Ideas Collection
+          {/* eslint-disable-next-line jsx-a11y/aria-role */}
+          <Typography role="description" variant="h6" className={classes.title}>
+            Fasteel -{' '}
+            {
+              routes.find((route) => route.path === location.pathname)
+                ?.description
+            }
           </Typography>
           <IconButton
             onClick={() => setModalVisible(true)}

@@ -5,7 +5,7 @@ import BitMasks from '../components/bit-masks/BitMasks';
 export default [
   {
     name: 'Home',
-    description: '',
+    description: 'App Ideas Collection',
     path: '/',
     component: AppList,
   },

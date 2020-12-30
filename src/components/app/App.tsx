@@ -21,15 +21,16 @@ export default function App(): JSX.Element {
           <AppBar />
         </div>
         <Switch>
-          <div>
+          <>
             {routes.map((route) => (
               <Route
+                key={route.name}
                 exact={route.path === '/'}
                 path={route.path}
                 component={route.component}
               />
             ))}
-          </div>
+          </>
         </Switch>
       </ThemeProvider>
     </BrowserRouter>

@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import FolderIcon from '@material-ui/icons/Folder';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { Box } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 // eslint-disable-next-line import/no-cycle
 import routes from '../../utils/routes';
 
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function AppList(): JSX.Element {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <div className={classes.root}>
@@ -41,7 +43,7 @@ export default function AppList(): JSX.Element {
             {routes.map(
               (route) =>
                 route.path !== '/' && (
-                  <ListItem>
+                  <ListItem key={route.name}>
                     <ListItemAvatar>
                       <Avatar>
                         <FolderIcon />
@@ -55,8 +57,10 @@ export default function AppList(): JSX.Element {
                       <IconButton
                         edge="end"
                         aria-label="Delete"
+                        name={route.name}
+                        role="button"
                         onClick={() => {
-                          // todo
+                          history.push(route.path);
                         }}
                       >
                         <ArrowForwardIcon />
