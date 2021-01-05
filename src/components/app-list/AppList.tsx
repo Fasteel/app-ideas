@@ -58,7 +58,7 @@ export default function AppList(): JSX.Element {
                         edge="end"
                         aria-label="Delete"
                         name={route.name}
-                        role="button"
+                        role="link"
                         onClick={() => {
                           history.push(route.path);
                         }}
