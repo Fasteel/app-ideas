@@ -12,10 +12,10 @@ describe('AppBarDialog test', () => {
     expect(screen.getByText('Information')).toBeInTheDocument();
   });
 
-  it('Should print Fermer into modal', () => {
+  it('Should print Close into modal', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     render(<AppBarDialog visible setVisible={(val) => null} />);
-    expect(screen.getByText('Fermer')).toBeInTheDocument();
+    expect(screen.getByText('Close')).toBeInTheDocument();
   });
 
   it('Should give info to user', () => {

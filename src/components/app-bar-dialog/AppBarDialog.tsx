@@ -98,7 +98,7 @@ export default function AppBarDialog({
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose} color="primary">
-            Fermer
+            Close
           </Button>
         </DialogActions>
       </Dialog>
