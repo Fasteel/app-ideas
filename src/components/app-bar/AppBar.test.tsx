@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import AppBar from './AppBar';
@@ -51,5 +51,17 @@ describe('AppBar test', () => {
     expect(getByRole('description')).toHaveTextContent(
       'Using Bit Masks for Conditions'
     );
+  });
+
+  it('Should redirect to home page', () => {
+    const history = createMemoryHistory();
+    history.push('/bit-masks');
+    const { getByRole } = render(
+      <Router history={history}>
+        <AppBar />
+      </Router>
+    );
+    fireEvent.click(getByRole('description'));
+    expect(history.location.pathname).toEqual('/');
   });
 });
