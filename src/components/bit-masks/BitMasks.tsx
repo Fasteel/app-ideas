@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Checkbox, FormControlLabel } from '@material-ui/core';
+import { Grid, Checkbox, FormControlLabel, Box } from '@material-ui/core';
 
 export const checkboxes = [
   'Moscow: GMT +3',
@@ -20,8 +20,12 @@ export const checkboxes = [
   'Mumbai: GMT +5',
 ];
 
+interface state {
+  [key: string]: boolean;
+}
+
 const getInitialState = () => {
-  const initalState: any = {};
+  const initalState: state = {};
   checkboxes.forEach((checkbox) => {
     initalState[checkbox] = false;
   });
@@ -32,22 +36,24 @@ export default function BitMasks(): JSX.Element {
   const [checked, setChecked] = useState(getInitialState());
 
   return (
-    <div>
-      {checkboxes.map((checkbox, index) => (
-        <FormControlLabel
-          key={index.toString()}
-          control={
-            <Checkbox
-              onChange={() =>
-                setChecked({ ...checked, [checkbox]: !checked[checkbox] })
-              }
-              checked={checked[checkbox]}
-            />
-          }
-          label={checkbox}
-          role="checkbox"
-        />
-      ))}
-    </div>
+    <Grid container justify="center">
+      <Box display="flex" flexDirection="column">
+        {checkboxes.map((checkbox, index) => (
+          <FormControlLabel
+            key={index.toString()}
+            control={
+              <Checkbox
+                onChange={() =>
+                  setChecked({ ...checked, [checkbox]: !checked[checkbox] })
+                }
+                checked={checked[checkbox]}
+              />
+            }
+            label={checkbox}
+            role="checkbox"
+          />
+        ))}
+      </Box>
+    </Grid>
   );
 }
