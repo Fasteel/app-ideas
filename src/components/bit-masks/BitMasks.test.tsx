@@ -1,19 +1,17 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import BitMasks, { initialState } from './BitMasks';
+import BitMasks, { initialStateCities } from './BitMasks';
 
 describe('BitMasks test', () => {
   it('Should render checkboxes content', () => {
     const { getAllByRole } = render(<BitMasks />);
     const checkboxesFromPage = getAllByRole('checkbox');
     expect(
-      Object.keys(initialState).every((val) =>
+      Object.keys(initialStateCities).every((key) =>
         checkboxesFromPage.some(
           (checkbox) =>
             checkbox.textContent ===
-            `${val}: GMT ${initialState[val].timestamp > 0 ? '+' : ''}${
-              initialState[val].timestamp
-            }`
+            `${key}: GMT ${initialStateCities[key].gmt}`
         )
       )
     ).toBeTruthy();

@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import {
-  Grid,
   Checkbox,
   FormControlLabel,
   Box,
@@ -8,135 +7,250 @@ import {
   CardContent,
   makeStyles,
   Typography,
+  Select,
+  Grid,
 } from '@material-ui/core';
+import { onlyUnique } from '../../utils/functions';
 
-export const initialState: state = {
-  Moscow: {
-    timestamp: 3,
-    checked: false,
-  },
-  Paris: {
-    timestamp: 2,
-    checked: false,
-  },
-  Berlin: {
-    timestamp: 2,
-    checked: false,
-  },
-  Brussels: {
-    timestamp: 2,
-    checked: false,
-  },
-  Amsterdam: {
-    timestamp: 2,
-    checked: false,
-  },
-  Rome: {
-    timestamp: 2,
-    checked: false,
-  },
-  London: {
-    timestamp: 1,
-    checked: false,
-  },
-  Dublin: {
-    timestamp: 1,
-    checked: false,
-  },
-  'New York': {
-    timestamp: -4,
-    checked: false,
-  },
-  'Washington, DC': {
-    timestamp: -4,
-    checked: false,
-  },
-  'St. Louis': {
-    timestamp: -5,
-    checked: false,
-  },
-  'Los Angeles': {
-    timestamp: -7,
-    checked: false,
-  },
-  Tokyo: {
-    timestamp: 9,
-    checked: false,
-  },
-  Beijing: {
-    timestamp: 8,
-    checked: false,
-  },
-  'Ho Chi Mihn City': {
-    timestamp: 7,
-    checked: false,
-  },
-  Mumbai: {
-    timestamp: 5,
-    checked: false,
-  },
-};
-
-interface state {
+interface citiesState {
   [key: string]: {
-    timestamp: number;
+    gmt: string;
     checked: boolean;
   };
 }
 
+export const initialStateCities: citiesState = {
+  Moscow: {
+    gmt: '+3',
+    checked: false,
+  },
+  Paris: {
+    gmt: '+2',
+    checked: false,
+  },
+  Berlin: {
+    gmt: '+2',
+    checked: false,
+  },
+  Brussels: {
+    gmt: '+2',
+    checked: false,
+  },
+  Amsterdam: {
+    gmt: '+2',
+    checked: false,
+  },
+  Rome: {
+    gmt: '+2',
+    checked: false,
+  },
+  London: {
+    gmt: '+1',
+    checked: false,
+  },
+  Dublin: {
+    gmt: '+1',
+    checked: false,
+  },
+  'New York': {
+    gmt: '-4',
+    checked: false,
+  },
+  'Washington, DC': {
+    gmt: '-4',
+    checked: false,
+  },
+  'St. Louis': {
+    gmt: '-5',
+    checked: false,
+  },
+  'Los Angeles': {
+    gmt: '-7',
+    checked: false,
+  },
+  Tokyo: {
+    gmt: '+9',
+    checked: false,
+  },
+  Beijing: {
+    gmt: '+8',
+    checked: false,
+  },
+  'Ho Chi Mihn City': {
+    gmt: '+7',
+    checked: false,
+  },
+  Mumbai: {
+    gmt: '+5',
+    checked: false,
+  },
+};
+
+const initialStateGmt = '';
+
 const useStyles = makeStyles(() => ({
   card: {
     maxWidth: 500,
+    marginBottom: '1rem',
   },
   title: {
     fontSize: 14,
   },
 }));
 
-export default function BitMasks(): JSX.Element {
-  const [checkboxes, setCheckboxes] = useState(initialState);
+function CitiesSelector({
+  cities,
+  setCities,
+}: {
+  cities: citiesState;
+  setCities: Dispatch<SetStateAction<citiesState>>;
+}) {
   const classes = useStyles();
 
   return (
-    <Box p="1rem" m="1rem">
-      <Grid container justify="center">
-        <Card className={classes.card}>
-          <CardContent>
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
+    <Grid>
+      <Card className={classes.card}>
+        <CardContent>
+          <Typography
+            className={classes.title}
+            color="textSecondary"
+            gutterBottom
+          >
+            Choose a city
+          </Typography>
+          <Box display="flex" flexDirection="column">
+            {Object.keys(cities).map((key, index) => (
+              <FormControlLabel
+                key={index.toString()}
+                control={
+                  <Checkbox
+                    onChange={() =>
+                      setCities({
+                        ...cities,
+                        [key]: {
+                          ...cities[key],
+                          checked: !cities[key].checked,
+                        },
+                      })
+                    }
+                    checked={cities[key].checked}
+                  />
+                }
+                label={`${key}: GMT ${cities[key].gmt}`}
+                role="checkbox"
+              />
+            ))}
+          </Box>
+        </CardContent>
+      </Card>
+    </Grid>
+  );
+}
+
+function GMTSelector({
+  gmt,
+  setGmt,
+}: {
+  gmt: string;
+  setGmt: Dispatch<SetStateAction<string>>;
+}) {
+  const classes = useStyles();
+
+  const handleChangeGmt = (
+    e: React.ChangeEvent<{ name?: string; value: unknown }>
+  ) => {
+    const value = e.target.value as string;
+    setGmt(value);
+  };
+
+  const gmtPossibilities = useMemo(() => {
+    return Object.keys(initialStateCities)
+      .map((key) => initialStateCities[key].gmt)
+      .filter(onlyUnique)
+      .sort();
+  }, []);
+
+  return (
+    <Grid>
+      <Card className={classes.card}>
+        <CardContent>
+          <Typography
+            className={classes.title}
+            color="textSecondary"
+            gutterBottom
+          >
+            Choose a GMT
+          </Typography>
+          <Box display="flex" flexDirection="column">
+            <Select
+              native
+              value={gmt}
+              onChange={handleChangeGmt}
+              inputProps={{
+                name: 'GMT',
+              }}
             >
-              Choose a city
-            </Typography>
-            <Box display="flex" flexDirection="column">
-              {Object.keys(checkboxes).map((key, index) => (
-                <FormControlLabel
-                  key={index.toString()}
-                  control={
-                    <Checkbox
-                      onChange={() =>
-                        setCheckboxes({
-                          ...checkboxes,
-                          [key]: {
-                            ...checkboxes[key],
-                            checked: !checkboxes[key].checked,
-                          },
-                        })
-                      }
-                      checked={checkboxes[key].checked}
-                    />
-                  }
-                  label={`${key}: GMT ${
-                    checkboxes[key].timestamp > 0 ? '+' : ''
-                  }${checkboxes[key].timestamp}`}
-                  role="checkbox"
-                />
+              <option aria-label="None" value="" />
+              {gmtPossibilities.map((gmtPossibility, index) => (
+                <option key={index.toString()} value={gmtPossibility}>
+                  {gmtPossibility}
+                </option>
               ))}
-            </Box>
-          </CardContent>
-        </Card>
+            </Select>
+          </Box>
+        </CardContent>
+      </Card>
+    </Grid>
+  );
+}
+
+function Output({ output }: { output: string[] }): JSX.Element {
+  const classes = useStyles();
+
+  return (
+    <Card className={classes.card}>
+      <CardContent>
+        <Typography
+          className={classes.title}
+          color="textSecondary"
+          gutterBottom
+        >
+          Output
+        </Typography>
+        {output.map((oneOutput) => (
+          <Typography>{oneOutput}</Typography>
+        ))}
+      </CardContent>
+    </Card>
+  );
+}
+
+function Container({ children }: { children: JSX.Element[] }): JSX.Element {
+  return (
+    <Box p="1rem" m="1rem">
+      <Grid container spacing={3} direction="column" alignItems="center">
+        {children}
       </Grid>
     </Box>
+  );
+}
+
+export default function BitMasks(): JSX.Element {
+  const [cities, setCities] = useState(initialStateCities);
+  const [gmt, setGmt] = useState(initialStateGmt);
+
+  const filteredOutput = useMemo(() => {
+    return Object.keys(cities).filter(
+      (key) => cities[key].gmt === gmt && cities[key].checked
+    );
+  }, [cities, gmt]);
+
+  // todo test réaction composant Output
+  return (
+    <Container>
+      <CitiesSelector cities={cities} setCities={setCities} />
+      <GMTSelector gmt={gmt} setGmt={setGmt} />
+      <Output output={filteredOutput} />
+    </Container>
   );
 }
