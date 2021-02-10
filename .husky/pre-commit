@@ -1,6 +1,6 @@
 #!/bin/sh
 . "$(dirname $0)/_/husky.sh"
 
-eslint --fix .
-prettier --write .
+eslint --fix src
+prettier --write src
 react-scripts test --watchAll=false

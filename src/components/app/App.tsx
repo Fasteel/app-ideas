@@ -2,7 +2,9 @@ import React from 'react';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/core';
 import { teal, indigo } from '@material-ui/core/colors';
-import AppBar from '../app-bar';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import AppBar from '../app-bar/AppBar';
+import routes from '../../utils/routes';
 
 const theme = createMuiTheme({
   palette: {
@@ -11,14 +13,26 @@ const theme = createMuiTheme({
   },
 });
 
-function App(): JSX.Element {
+export default function App(): JSX.Element {
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-        <AppBar />
-      </div>
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <AppBar />
+        </div>
+        <Switch>
+          <>
+            {routes.map((route) => (
+              <Route
+                key={route.name}
+                exact={route.path === '/'}
+                path={route.path}
+                component={route.component}
+              />
+            ))}
+          </>
+        </Switch>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
-
-export default App;

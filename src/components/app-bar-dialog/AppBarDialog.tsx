@@ -85,22 +85,20 @@ export default function AppBarDialog({
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
-            Ce site a pour objectif de servir de base de travail afin
-            {/* eslint-disable-next-line react/no-unescaped-entities */}{' '}
-            d'accomplir les différents projets proposés sur{' '}
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            This site aims to serve as a working basis in order to accomplish
+            the various projects proposed on{' '}
             <Link
               href="https://github.com/florinpop17/app-ideas"
               target="_blank"
               rel="noreferrer"
             >
-              ce dépôt
+              this repository
             </Link>
           </Typography>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose} color="primary">
-            Fermer
+            Close
           </Button>
         </DialogActions>
       </Dialog>
