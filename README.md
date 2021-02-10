@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# APP-IDEAS
+
+The aim of this project is to rapidly implement a solution to a problem.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
